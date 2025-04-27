@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 26, 2025 at 05:54 PM
+-- Generation Time: Apr 27, 2025 at 04:39 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -133,7 +133,9 @@ CREATE TABLE `reservation` (
   `time_to` time NOT NULL,
   `party_type` varchar(50) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `no_of_guests` int(11) NOT NULL
+  `no_of_guests` int(11) NOT NULL,
+  `cus_id` int(11) NOT NULL,
+  `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -255,7 +257,9 @@ ALTER TABLE `photo_video`
 -- Indexes for table `reservation`
 --
 ALTER TABLE `reservation`
-  ADD PRIMARY KEY (`res_id`);
+  ADD PRIMARY KEY (`res_id`),
+  ADD KEY `cus_id` (`cus_id`),
+  ADD KEY `admin_id` (`admin_id`);
 
 --
 -- Indexes for table `theme`
@@ -351,6 +355,13 @@ ALTER TABLE `music`
 --
 ALTER TABLE `photo_video`
   ADD CONSTRAINT `photo_video_ibfk_1` FOREIGN KEY (`photo_id`) REFERENCES `vendor` (`vendor_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `reservation`
+--
+ALTER TABLE `reservation`
+  ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`ad_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `theme`
