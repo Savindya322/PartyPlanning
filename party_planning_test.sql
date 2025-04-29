@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2025 at 04:39 PM
+-- Generation Time: Apr 29, 2025 at 03:12 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -35,6 +35,13 @@ CREATE TABLE `admin` (
   `Password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`ad_id`, `First_Name`, `Last_Name`, `UserName`, `Password`) VALUES
+(1, 'James', 'Carter', 'JamesCarter', 'James1234');
+
 -- --------------------------------------------------------
 
 --
@@ -49,30 +56,16 @@ CREATE TABLE `customer` (
   `UserName` varchar(255) NOT NULL,
   `Password` varchar(255) NOT NULL,
   `Email` varchar(255) NOT NULL,
+  `phone_number` int(11) NOT NULL,
   `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `cus_phone`
+-- Dumping data for table `customer`
 --
 
-CREATE TABLE `cus_phone` (
-  `cus_id` int(11) NOT NULL,
-  `phone_number` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `deco`
---
-
-CREATE TABLE `deco` (
-  `deco_id` int(11) NOT NULL,
-  `theme` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `customer` (`cus_id`, `First_Name`, `Last_Name`, `Age`, `UserName`, `Password`, `Email`, `phone_number`, `admin_id`) VALUES
+(1, 'student\r\n\r\n', NULL, 23, 'USJ', 'CSC209', 'student123@gmail.com', 765648392, 1);
 
 -- --------------------------------------------------------
 
@@ -85,40 +78,12 @@ CREATE TABLE `feedback` (
   `message` varchar(256) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `food`
+-- Dumping data for table `feedback`
 --
 
-CREATE TABLE `food` (
-  `food_id` int(11) NOT NULL,
-  `category` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `music`
---
-
-CREATE TABLE `music` (
-  `music_id` int(11) NOT NULL,
-  `type` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `photo_video`
---
-
-CREATE TABLE `photo_video` (
-  `photo_id` int(11) NOT NULL,
-  `duration` int(11) NOT NULL,
-  `category` varchar(100) NOT NULL,
-  `album_status` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `feedback` (`cus_id`, `message`) VALUES
+(1, 'The party planning site made organizing my event a breeze! From selecting vendors to coordinating details, everything was seamless. Highly recommend for stress-free party planning.');
 
 -- --------------------------------------------------------
 
@@ -135,8 +100,17 @@ CREATE TABLE `reservation` (
   `description` varchar(255) NOT NULL,
   `no_of_guests` int(11) NOT NULL,
   `cus_id` int(11) NOT NULL,
-  `admin_id` int(11) NOT NULL
+  `admin_id` int(11) NOT NULL,
+  `vendor_id` int(11) NOT NULL,
+  `venue_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `reservation`
+--
+
+INSERT INTO `reservation` (`res_id`, `date`, `time_from`, `time_to`, `party_type`, `description`, `no_of_guests`, `cus_id`, `admin_id`, `vendor_id`, `venue_id`) VALUES
+(2, '2025-04-30', '15:00:00', '17:00:00', 'birthday', 'I want to celebrate my birthday party with my friends and family.There will be 20 old guests and 10 kids. I want to have a 1920s theme party with Amaya Food.', 5, 1, 1, 5, 1);
 
 -- --------------------------------------------------------
 
@@ -146,10 +120,17 @@ CREATE TABLE `reservation` (
 
 CREATE TABLE `theme` (
   `theme_id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `description` varchar(256) NOT NULL,
-  `reser_id` int(11) NOT NULL
+  `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `theme`
+--
+
+INSERT INTO `theme` (`theme_id`, `name`, `description`, `admin_id`) VALUES
+(2, 'Under the Sea', 'Dive into an underwater world with ocean-themed decor, costumes inspired by sea creatures, and pirate themes.', 1);
 
 -- --------------------------------------------------------
 
@@ -159,22 +140,22 @@ CREATE TABLE `theme` (
 
 CREATE TABLE `vendor` (
   `vendor_id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
+  `name` varchar(50) NOT NULL,
   `description` varchar(256) NOT NULL,
   `fee` int(11) NOT NULL,
-  `reser_id` int(11) NOT NULL
+  `Email` varchar(200) NOT NULL,
+  `category` varchar(100) NOT NULL,
+  `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `vendor_phone`
+-- Dumping data for table `vendor`
 --
 
-CREATE TABLE `vendor_phone` (
-  `vendor_id` int(11) NOT NULL,
-  `phon_number` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `vendor` (`vendor_id`, `name`, `description`, `fee`, `Email`, `category`, `admin_id`) VALUES
+(3, 'Amaya Food', 'We are providing excellence', 2000, '', 'Food', 1),
+(4, 'Amaya Foods', 'Mouth Watering Food, choose meal preferences\r\nWe serve for lunch time parties.Fee is for anykind of one lunch packet.', 2000, 'amayafood123@gmail.com', 'Food', 1),
+(5, 'Vision', 'We cover all king of party events. Fee is for one hour fot photography. Contact us for more details.', 5000, 'visionphptography@gmail.com', 'Photography', 1);
 
 -- --------------------------------------------------------
 
@@ -184,21 +165,19 @@ CREATE TABLE `vendor_phone` (
 
 CREATE TABLE `venue` (
   `venue_id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `contact` int(11) NOT NULL,
-  `reser_id` int(11) NOT NULL
+  `name` varchar(50) NOT NULL,
+  `description` varchar(256) NOT NULL,
+  `website` varchar(256) NOT NULL,
+  `admin_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `venue_address`
+-- Dumping data for table `venue`
 --
 
-CREATE TABLE `venue_address` (
-  `venue_id` int(11) NOT NULL,
-  `address` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `venue` (`venue_id`, `name`, `description`, `website`, `admin_id`) VALUES
+(1, 'Starry Night Pavilion', 'Dance under the twinkling stars in our picturesque outdoor pavilion, the perfect setting for magical celebrations.', 'www.google.com', 1),
+(2, 'Crystal Cove Ballroom', 'Elegant charm meets modern luxury in our versatile ballroom, ideal for weddings, galas, and corporate events.', 'www.instagram.com', 1);
 
 --
 -- Indexes for dumped tables
@@ -218,40 +197,10 @@ ALTER TABLE `customer`
   ADD KEY `admin_id` (`admin_id`);
 
 --
--- Indexes for table `cus_phone`
---
-ALTER TABLE `cus_phone`
-  ADD PRIMARY KEY (`cus_id`,`phone_number`);
-
---
--- Indexes for table `deco`
---
-ALTER TABLE `deco`
-  ADD KEY `deco_id` (`deco_id`);
-
---
 -- Indexes for table `feedback`
 --
 ALTER TABLE `feedback`
   ADD KEY `cus_id` (`cus_id`);
-
---
--- Indexes for table `food`
---
-ALTER TABLE `food`
-  ADD KEY `food_id` (`food_id`);
-
---
--- Indexes for table `music`
---
-ALTER TABLE `music`
-  ADD KEY `music_id` (`music_id`);
-
---
--- Indexes for table `photo_video`
---
-ALTER TABLE `photo_video`
-  ADD KEY `photo_id` (`photo_id`);
 
 --
 -- Indexes for table `reservation`
@@ -259,40 +208,30 @@ ALTER TABLE `photo_video`
 ALTER TABLE `reservation`
   ADD PRIMARY KEY (`res_id`),
   ADD KEY `cus_id` (`cus_id`),
-  ADD KEY `admin_id` (`admin_id`);
+  ADD KEY `admin_id` (`admin_id`),
+  ADD KEY `vendor_id` (`vendor_id`),
+  ADD KEY `venue_id` (`venue_id`);
 
 --
 -- Indexes for table `theme`
 --
 ALTER TABLE `theme`
   ADD PRIMARY KEY (`theme_id`),
-  ADD KEY `theme_ibfk_1` (`reser_id`);
+  ADD KEY `admin_id` (`admin_id`);
 
 --
 -- Indexes for table `vendor`
 --
 ALTER TABLE `vendor`
   ADD PRIMARY KEY (`vendor_id`),
-  ADD KEY `reser_id` (`reser_id`);
-
---
--- Indexes for table `vendor_phone`
---
-ALTER TABLE `vendor_phone`
-  ADD PRIMARY KEY (`vendor_id`,`phon_number`);
+  ADD KEY `admin_id` (`admin_id`);
 
 --
 -- Indexes for table `venue`
 --
 ALTER TABLE `venue`
   ADD PRIMARY KEY (`venue_id`),
-  ADD KEY `reser_id` (`reser_id`);
-
---
--- Indexes for table `venue_address`
---
-ALTER TABLE `venue_address`
-  ADD PRIMARY KEY (`venue_id`,`address`);
+  ADD KEY `admin_id` (`admin_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -302,13 +241,37 @@ ALTER TABLE `venue_address`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `cus_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cus_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `reservation`
+--
+ALTER TABLE `reservation`
+  MODIFY `res_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `theme`
+--
+ALTER TABLE `theme`
+  MODIFY `theme_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `vendor`
+--
+ALTER TABLE `vendor`
+  MODIFY `vendor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `venue`
+--
+ALTER TABLE `venue`
+  MODIFY `venue_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -321,79 +284,40 @@ ALTER TABLE `customer`
   ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`ad_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `cus_phone`
---
-ALTER TABLE `cus_phone`
-  ADD CONSTRAINT `cus_phone_ibfk_1` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `deco`
---
-ALTER TABLE `deco`
-  ADD CONSTRAINT `deco_ibfk_1` FOREIGN KEY (`deco_id`) REFERENCES `vendor` (`vendor_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `feedback`
 --
 ALTER TABLE `feedback`
   ADD CONSTRAINT `feedback_ibfk_1` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_Id`);
 
 --
--- Constraints for table `food`
---
-ALTER TABLE `food`
-  ADD CONSTRAINT `food_ibfk_1` FOREIGN KEY (`food_id`) REFERENCES `vendor` (`vendor_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `music`
---
-ALTER TABLE `music`
-  ADD CONSTRAINT `music_ibfk_1` FOREIGN KEY (`music_id`) REFERENCES `vendor` (`vendor_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `photo_video`
---
-ALTER TABLE `photo_video`
-  ADD CONSTRAINT `photo_video_ibfk_1` FOREIGN KEY (`photo_id`) REFERENCES `vendor` (`vendor_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Constraints for table `reservation`
 --
 ALTER TABLE `reservation`
   ADD CONSTRAINT `reservation_ibfk_1` FOREIGN KEY (`cus_id`) REFERENCES `customer` (`cus_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`ad_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `reservation_ibfk_2` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`ad_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservation_ibfk_3` FOREIGN KEY (`vendor_id`) REFERENCES `vendor` (`vendor_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `reservation_ibfk_4` FOREIGN KEY (`venue_id`) REFERENCES `venue` (`venue_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `theme`
 --
 ALTER TABLE `theme`
-  ADD CONSTRAINT `theme_ibfk_1` FOREIGN KEY (`reser_id`) REFERENCES `reservation` (`res_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `theme_ibfk_2` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`ad_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `vendor`
 --
 ALTER TABLE `vendor`
-  ADD CONSTRAINT `vendor_ibfk_1` FOREIGN KEY (`reser_id`) REFERENCES `reservation` (`res_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `vendor_phone`
---
-ALTER TABLE `vendor_phone`
-  ADD CONSTRAINT `vendor_phone_ibfk_1` FOREIGN KEY (`vendor_id`) REFERENCES `vendor` (`vendor_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `vendor_ibfk_2` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`ad_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `venue`
 --
 ALTER TABLE `venue`
-  ADD CONSTRAINT `venue_ibfk_1` FOREIGN KEY (`reser_id`) REFERENCES `reservation` (`res_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `venue_address`
---
-ALTER TABLE `venue_address`
-  ADD CONSTRAINT `venue_address_ibfk_1` FOREIGN KEY (`venue_id`) REFERENCES `venue` (`venue_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `venue_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `admin` (`ad_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
